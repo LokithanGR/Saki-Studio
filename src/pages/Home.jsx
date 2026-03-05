@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Section from "../components/Section.jsx";
 import Gallery from "../components/Gallery.jsx";
-import FloatingWA from "../components/FloatingWA.jsx";
 import { BRAND, SERVICES } from "../data.js";
 import { waLink } from "../utils/links.js";
 import logo from "../assets/logo.png";
@@ -58,9 +57,7 @@ export default function Home() {
 
           {/* ✅ ACTIONS */}
           <div className="actions">
-            <a className="btn ghost" href={`tel:${BRAND.phoneDial}`}>
-              Call
-            </a>
+            
             <a className="btn" href={bookLink} target="_blank" rel="noreferrer">
               Book Now
             </a>
@@ -259,8 +256,6 @@ export default function Home() {
           </div>
         </footer>
       </main>
-
-      <FloatingWA />
     </div>
   );
 }
