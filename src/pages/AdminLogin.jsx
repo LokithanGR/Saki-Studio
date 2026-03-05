@@ -21,14 +21,12 @@ export default function AdminLogin() {
     <div className="authBg">
       <div className="authCard">
         <div className="authTitle">Admin Login</div>
-        <div className="tiny">Demo: Sakila / SakiDazzle</div>
-
         <form onSubmit={submit} className="form" style={{ marginTop: 10 }}>
           <label>Username</label>
-          <input value={u} onChange={(e) => setU(e.target.value)} placeholder="Sakila" />
+          <input value={u} onChange={(e) => setU(e.target.value)} />
 
           <label>Password</label>
-          <input value={p} onChange={(e) => setP(e.target.value)} type="password" placeholder="SakiDazzle" />
+          <input value={p} onChange={(e) => setP(e.target.value)} type="password" />
 
           {msg ? <div className="alert">⚠️ {msg}</div> : null}
 
