@@ -359,7 +359,8 @@ img{ max-width: 100%; height: auto; }
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  width: 100%;
 }
 
 .sliderRow{
@@ -371,6 +372,7 @@ img{ max-width: 100%; height: auto; }
   width: 100%;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
 }
 
 .sliderRow::-webkit-scrollbar{
@@ -380,6 +382,7 @@ img{ max-width: 100%; height: auto; }
 .slideCard{
   min-width: 220px;
   max-width: 220px;
+  width: 220px;
   height: 320px;
   border: 0;
   padding: 0;
@@ -389,6 +392,7 @@ img{ max-width: 100%; height: auto; }
   overflow: hidden;
   position: relative;
   flex: 0 0 auto;
+  scroll-snap-align: start;
   box-shadow: 0 14px 34px rgba(17,24,39,0.10);
   transition: transform .18s ease, box-shadow .18s ease;
 }
@@ -433,12 +437,73 @@ img{ max-width: 100%; height: auto; }
   transform: translateY(-1px);
 }
 
+.sliderBtnOuter{
+  display: inline-flex;
+}
+
 .showMoreWrap{
   display: flex;
   justify-content: center;
   margin-top: 14px;
 }
 
+.photoMeta{
+  position:absolute;
+  inset: 0;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding: 12px;
+  background: linear-gradient(180deg, transparent 60%, rgba(17,24,39,0.72));
+  color: #fff;
+}
+
+.photoTitle{
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.photoSub{
+  opacity: 0.85;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.modalImageWrap{
+  position: relative;
+  width: 100%;
+}
+
+.modalNav{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(17,24,39,0.45);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.modalNavLeft{
+  left: 14px;
+}
+
+.modalNavRight{
+  right: 14px;
+}
+
+.modalNav:hover{
+  background: rgba(17,24,39,0.62);
+}
 .photoMeta{
   position:absolute;
   inset: 0;

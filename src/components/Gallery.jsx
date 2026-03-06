@@ -5,7 +5,7 @@ const STEP = 10;
 
 export default function Gallery() {
   const [items, setItems] = useState([]);
-  const [active, setActive] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
   const [city, setCity] = useState("All");
@@ -49,6 +49,8 @@ export default function Gallery() {
 
   useEffect(() => {
     setVisibleCount(STEP);
+    setActiveIndex(null);
+
     if (sliderRef.current) {
       sliderRef.current.scrollTo({
         left: 0,
@@ -58,6 +60,7 @@ export default function Gallery() {
   }, [city]);
 
   const canShowMore = visibleCount < filtered.length;
+  const activeItem = activeIndex !== null ? visibleItems[activeIndex] : null;
 
   const slideLeft = () => {
     if (!sliderRef.current) return;
@@ -87,8 +90,41 @@ export default function Gallery() {
         left: sliderRef.current.clientWidth,
         behavior: "smooth",
       });
-    }, 100);
+    }, 120);
   };
+
+  const openImage = (index) => {
+    setActiveIndex(index);
+  };
+
+  const closeModal = () => {
+    setActiveIndex(null);
+  };
+
+  const showPrevImage = (e) => {
+    e?.stopPropagation?.();
+    if (activeIndex === null) return;
+    setActiveIndex((prev) => (prev === 0 ? visibleItems.length - 1 : prev - 1));
+  };
+
+  const showNextImage = (e) => {
+    e?.stopPropagation?.();
+    if (activeIndex === null) return;
+    setActiveIndex((prev) => (prev === visibleItems.length - 1 ? 0 : prev + 1));
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (activeIndex === null) return;
+
+      if (e.key === "Escape") closeModal();
+      if (e.key === "ArrowLeft") showPrevImage(e);
+      if (e.key === "ArrowRight") showNextImage(e);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeIndex, visibleItems.length]);
 
   return (
     <div>
@@ -105,6 +141,7 @@ export default function Gallery() {
             </button>
           ))}
         </div>
+
         <div className="tiny">
           {loading ? "Loading..." : `${filtered.length} photos`}
         </div>
@@ -115,7 +152,7 @@ export default function Gallery() {
       <div className="gallerySliderWrap">
         <button
           type="button"
-          className="sliderBtn left"
+          className="sliderBtn sliderBtnOuter left"
           onClick={slideLeft}
           aria-label="Scroll left"
         >
@@ -123,12 +160,12 @@ export default function Gallery() {
         </button>
 
         <div className="sliderRow" ref={sliderRef}>
-          {visibleItems.map((x) => (
+          {visibleItems.map((x, index) => (
             <button
               type="button"
-              key={x.id || x.imageUrl}
+              key={x.id || x.imageUrl || index}
               className="slideCard"
-              onClick={() => setActive(x)}
+              onClick={() => openImage(index)}
               title={x.title || "View"}
             >
               <img src={x.imageUrl} alt={x.title || "Gallery"} loading="lazy" />
@@ -142,7 +179,7 @@ export default function Gallery() {
 
         <button
           type="button"
-          className="sliderBtn right"
+          className="sliderBtn sliderBtnOuter right"
           onClick={slideRight}
           aria-label="Scroll right"
         >
@@ -158,30 +195,48 @@ export default function Gallery() {
         </div>
       ) : null}
 
-      {active ? (
-        <div
-          className="modal"
-          onClick={() => setActive(null)}
-          role="presentation"
-        >
+      {activeItem ? (
+        <div className="modal" onClick={closeModal} role="presentation">
           <div
             className="modalCard"
             onClick={(e) => e.stopPropagation()}
             role="presentation"
           >
-            <img src={active.imageUrl} alt={active.title || "Preview"} />
+            <div className="modalImageWrap">
+              <button
+                type="button"
+                className="modalNav modalNavLeft"
+                onClick={showPrevImage}
+                aria-label="Previous image"
+              >
+                ‹
+              </button>
+
+              <img src={activeItem.imageUrl} alt={activeItem.title || "Preview"} />
+
+              <button
+                type="button"
+                className="modalNav modalNavRight"
+                onClick={showNextImage}
+                aria-label="Next image"
+              >
+                ›
+              </button>
+            </div>
+
             <div className="modalBar">
               <div>
-                <div className="modalTitle">{active.title || "Look"}</div>
+                <div className="modalTitle">{activeItem.title || "Look"}</div>
                 <div className="tiny">
-                  {active.city ? `${active.city} • ` : ""}
-                  {String(active.createdAt || "").slice(0, 10)}
+                  {activeItem.city ? `${activeItem.city} • ` : ""}
+                  {String(activeItem.createdAt || "").slice(0, 10)}
                 </div>
               </div>
+
               <button
                 className="btn ghost"
                 type="button"
-                onClick={() => setActive(null)}
+                onClick={closeModal}
               >
                 Close
               </button>
