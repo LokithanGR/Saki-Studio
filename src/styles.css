@@ -353,7 +353,7 @@ img{ max-width: 100%; height: auto; }
   border-color: rgba(183,110,121,0.22);
 }
 
-/* ---------- New Netflix-style Gallery ---------- */
+/* ---------- Gallery Slider ---------- */
 
 .gallerySliderWrap{
   position: relative;
@@ -469,9 +469,35 @@ img{ max-width: 100%; height: auto; }
   margin-top: 2px;
 }
 
+.modal{
+  position: fixed;
+  inset: 0;
+  background: rgba(17,24,39,0.65);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 18px;
+  z-index: 50;
+}
+
+.modalCard{
+  width: min(920px, 100%);
+  border-radius: 18px;
+  overflow:hidden;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 22px 70px rgba(17,24,39,0.25);
+}
+
 .modalImageWrap{
   position: relative;
   width: 100%;
+}
+
+.modalCard img{
+  width: 100%;
+  height: min(520px, 60vh);
+  object-fit: cover;
+  display:block;
 }
 
 .modalNav{
@@ -503,53 +529,6 @@ img{ max-width: 100%; height: auto; }
 
 .modalNav:hover{
   background: rgba(17,24,39,0.62);
-}
-.photoMeta{
-  position:absolute;
-  inset: 0;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  padding: 12px;
-  background: linear-gradient(180deg, transparent 60%, rgba(17,24,39,0.72));
-  color: #fff;
-}
-
-.photoTitle{
-  font-weight: 900;
-  font-size: 13px;
-}
-
-.photoSub{
-  opacity: 0.85;
-  font-size: 12px;
-  margin-top: 2px;
-}
-
-.modal{
-  position: fixed;
-  inset: 0;
-  background: rgba(17,24,39,0.65);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding: 18px;
-  z-index: 50;
-}
-
-.modalCard{
-  width: min(920px, 100%);
-  border-radius: 18px;
-  overflow:hidden;
-  background: rgba(255,255,255,0.95);
-  box-shadow: 0 22px 70px rgba(17,24,39,0.25);
-}
-
-.modalCard img{
-  width: 100%;
-  height: min(520px, 60vh);
-  object-fit: cover;
-  display:block;
 }
 
 .modalBar{
@@ -787,7 +766,6 @@ img{ max-width: 100%; height: auto; }
   image-rendering: -webkit-optimize-contrast;
 }
 
-/* Hamburger hidden on desktop */
 .menuBtn{
   display:none;
   border: 0;
@@ -799,7 +777,6 @@ img{ max-width: 100%; height: auto; }
   cursor: pointer;
 }
 
-/* dropdown default hidden */
 .mobileMenu{ display:none; }
 
 .page{
@@ -894,7 +871,6 @@ img{ max-width: 100%; height: auto; }
   scroll-margin-top: 90px;
 }
 
-/* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce){
   *{
     animation: none !important;
@@ -903,7 +879,6 @@ img{ max-width: 100%; height: auto; }
   }
 }
 
-/* ---------- Responsive ---------- */
 @media (max-width: 980px){
   .heroGrid{ grid-template-columns: 1fr; }
 
@@ -934,20 +909,6 @@ img{ max-width: 100%; height: auto; }
 @media (max-width: 900px){
   .heroGrid{ grid-template-columns: 1fr; }
   .heroRight{ margin-top: 14px; }
-}
-
-@media (max-width: 768px){
-  .slideCard{
-    min-width: 180px;
-    max-width: 180px;
-    height: 260px;
-  }
-
-  .sliderBtn{
-    width: 36px;
-    height: 36px;
-    font-size: 24px;
-  }
 }
 
 @media (max-width: 720px){
@@ -1048,24 +1009,89 @@ img{ max-width: 100%; height: auto; }
   .contactGrid{ grid-template-columns: 1fr; gap: 12px; }
 }
 
+@media (max-width: 768px){
+  .gallerySliderWrap{
+    display: block;
+    width: 100%;
+    position: relative;
+  }
+
+  .sliderBtnOuter{
+    display: none !important;
+  }
+
+  .sliderRow{
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 8px 0 12px;
+    margin: 0;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .slideCard{
+    flex: 0 0 calc((100% - 10px) / 2);
+    width: calc((100% - 10px) / 2);
+    min-width: calc((100% - 10px) / 2);
+    max-width: calc((100% - 10px) / 2);
+    height: 240px;
+    border-radius: 16px;
+    scroll-snap-align: start;
+  }
+
+  .slideCard img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .showMoreWrap{
+    margin-top: 10px;
+  }
+
+  .modalNav{
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
+}
+
 @media (max-width: 520px){
   .h1{ font-size: 36px; }
   .logo{ min-width: 0; }
 
-  .gallerySliderWrap{
-    gap: 6px;
+  .sliderRow{
+    gap: 8px;
+    padding: 8px 0 10px;
   }
 
   .slideCard{
-    min-width: 160px;
-    max-width: 160px;
-    height: 230px;
+    flex: 0 0 calc((100% - 8px) / 2);
+    width: calc((100% - 8px) / 2);
+    min-width: calc((100% - 8px) / 2);
+    max-width: calc((100% - 8px) / 2);
+    height: 210px;
+    border-radius: 14px;
   }
 
-  .sliderBtn{
-    width: 32px;
-    height: 32px;
-    font-size: 20px;
+  .modalCard img{
+    height: 46vh;
+  }
+
+  .modalNav{
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+  }
+
+  .modalNavLeft{
+    left: 10px;
+  }
+
+  .modalNavRight{
+    right: 10px;
   }
 }
 
