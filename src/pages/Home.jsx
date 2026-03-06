@@ -50,6 +50,7 @@ export default function Home() {
 
           {/* ✅ DESKTOP MENU */}
           <nav className="menu desktopMenu">
+            <a href="#">Home</a>
             <a href="#services">Services</a>
             <a href="#gallery">Gallery</a>
             <a href="#contact">Contact</a>
@@ -232,10 +233,10 @@ export default function Home() {
               <div className="cardTitle">Quick message template</div>
               <div className="template">
                 Hi {BRAND.name}!<br />
-                City: ____<br />
-                Date: ____<br />
-                Service: ____<br />
-                Time: ____<br />
+                City: <br />
+                Date: <br />
+                Service: <br />
+                Time: <br />
               </div>
               <a className="btn wide" href={bookLink} target="_blank" rel="noreferrer">
                 Send on WhatsApp
